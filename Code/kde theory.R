@@ -1,71 +1,51 @@
-####Plotting general visualizations of KDE theory
+#####################################################KDE Theory Chapter#####################
+##This Code File includes the code to all of the plots shown in the kde theory Chapter
 
-##########################In one dimension
+##########################One-dimensional
 set.seed(123)
-random_normal <- c(-0.2,  0.2,  0.4,  0.6,  1.0,  1.4,  1.6,  0.3,  2.0)
+data <- c(-0.2,  0.2,  0.4,  0.6,  1.0,  1.4,  1.6,  0.3,  2.0)
 
 ##Bandwidth at 0.2 -> undersmoothing
-kde <- density(random_normal, bw = 0.05, adjust = 1)
+kde <- density(data, bw = 0.05, adjust = 1)
 plot(kde, lwd = 2, xlim = c(-1, 3), ylim =c(0,10), main = "",  xlab = "", ylab = "", cex.axis = 1.2)
-points(x = random_normal, y = c(0, 0, 0, 0, 0, 0, 0, 0, 0))
-for(i in 1:length(random_normal)) {
-  lines(density(random_normal[i], bw = kde$bw), col = "darkgrey")
+points(x = data, y = c(0, 0, 0, 0, 0, 0, 0, 0, 0))
+for(i in 1:length(data)) {
+  lines(density(data[i], bw = kde$bw), col = "darkgrey")
 }
 title(xlab = "x", line = 2.5, cex.lab= 1.5)
 title(ylab = "Density", line = 2.5, cex.lab= 1.5)
 
 ##Bandwidth at 0.3 -> oversmoothing
-kde <- density(random_normal, bw = 0.3, adjust = 1)
+kde <- density(data, bw = 0.3, adjust = 1)
 plot(kde, lwd = 2,  ylim =c(0,2), main = "",  xlab = "", ylab = "", cex.axis = 1.2)
-points(x = random_normal, y = c(0, 0, 0, 0, 0, 0, 0, 0, 0))
-for(i in 1:length(random_normal)) {
-  lines(density(random_normal[i], bw = kde$bw), col = "darkgrey")
+points(x = data, y = c(0, 0, 0, 0, 0, 0, 0, 0, 0))
+for(i in 1:length(data)) {
+  lines(density(data[i], bw = kde$bw), col = "darkgrey")
 }
 title(xlab = "x", line = 2.5, cex.lab= 1.5)
 title(ylab = "Density", line = 2.5, cex.lab= 1.5)
 
 ##Overplotting
-kde <- density(random_normal, bw = 1.2, adjust = 1)
+kde <- density(data, bw = 1.2, adjust = 1)
 plot(kde, lwd = 2, xlim = c(-1,3), ylim = c(0,1), main = "",  xlab = "", ylab = "", cex.axis = 1.2)
-points(x = random_normal, y = c(0, 0, 0, 0, 0, 0, 0, 0, 0))
-for(i in 1:length(random_normal)) {
-  lines(density(random_normal[i], bw = kde$bw), col = "darkgrey")
+points(x = data, y = c(0, 0, 0, 0, 0, 0, 0, 0, 0))
+for(i in 1:length(data)) {
+  lines(density(data[i], bw = kde$bw), col = "darkgrey")
 }
 title(xlab = "x", line = 2.5, cex.lab= 1.5)
 title(ylab = "Density", line = 2.5, cex.lab= 1.5)
 
 
-##Two dimensional
-set.seed(35233)
-x<- cbind(c(1, 2, 3), c(1,2,3))
-
-# Compute kde for a diagonal bandwidth matrix (trivially positive definite)
-H <- diag(c(1.25, 0.75))
-kde <- ks::kde(x = x, H=H)
-plot(kde, display = "persp", col = "grey", xlab = "x", ylab = "y")
-par(new=TRUE)
-for(i in 1:nrow(x)) {
-  plot(kde$estimate[i,], display = "persp", col = "grey", xlab = "", ylab = "", xaxis = "")
-  par(new=TRUE)
-}
-
-
-###################two dimensions
+####################Two dimensional
 
 ##We use the package ks for the estimates. This package uses a standard multivariate normal as a Kernel. By setting
 ##the mixed terms in H to zero, the estimator is equivalent to the product of two standard normal distributions as Kernels
 
 test <- as.matrix(cbind(c(-4, -3, -4, -3.5, 2, 3, 4, 3.5, 4), c(-4,  -3.4, -3, -4, 0.7, 1.5, 0, 2, 4)))
-#Plot points
-plot(test, xlab = "x1", ylab = "x2", cex.axis = 0.7, cex.lab = 1)
-
 #Define grid
 x1_grid <- seq(-8, 8, length.out = 30)
 x2_grid <- seq(-8, 8, length.out = 30)
 x <- expand.grid(x1 = x1_grid, x2 = x2_grid)
-
-
-
 
 ###good bandwidth
 k <- ks::Hpi.diag(x = test)
