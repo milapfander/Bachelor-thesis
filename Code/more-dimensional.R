@@ -90,7 +90,7 @@ copula <- normalCopula(param = 0.3, dim = 5)
 
 # Generate random data from the copula
 copula_data <- rCopula(1000, copula)
-k <- 10
+k <- 3
 h <- (1-sqrt(0.3))
 gauss_cop_est_nd(y = copula_data, h=h, k=k)
 
